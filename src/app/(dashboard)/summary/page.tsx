@@ -8,6 +8,34 @@ import { DomainBars } from "@/components/summary/DomainBars";
 import { TopFive } from "@/components/summary/TopFive";
 import { Waterfall } from "@/components/summary/Waterfall";
 
+const cascade = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+  },
+};
+
+const fromTop = {
+  hidden: { opacity: 0, y: -16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+};
+
+const fromLeft = {
+  hidden: { opacity: 0, x: -18 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+};
+
+const fromRight = {
+  hidden: { opacity: 0, x: 18 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+};
+
+const fromBottom = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+};
+
 export default function SummaryPage() {
   const { allSubdomains, domains, infraSds, select } = useHeatmap();
   const router = useRouter();
@@ -21,23 +49,29 @@ export default function SummaryPage() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      variants={cascade}
+      initial="hidden"
+      animate="show"
       className="grid grid-cols-1 lg:grid-cols-2 gap-3"
     >
-      <div className="bg-white rounded-lg p-4 border border-bby-mid col-span-1 lg:col-span-2">
+      <motion.div
+        variants={fromTop}
+        className="glass-card rounded-xl p-4 col-span-1 lg:col-span-2"
+      >
         <Quadrant allSDs={allSubdomains} onDotClick={handleSelect} />
-      </div>
-      <div className="bg-white rounded-lg p-4 border border-bby-mid">
+      </motion.div>
+      <motion.div variants={fromLeft} className="glass-card rounded-xl p-4">
         <DomainBars domains={domains} infraSds={infraSds} />
-      </div>
-      <div className="bg-white rounded-lg p-4 border border-bby-mid">
+      </motion.div>
+      <motion.div variants={fromRight} className="glass-card rounded-xl p-4">
         <TopFive allSDs={allSubdomains} onSelect={handleSelect} />
-      </div>
-      <div className="bg-white rounded-lg p-4 border border-bby-mid col-span-1 lg:col-span-2">
+      </motion.div>
+      <motion.div
+        variants={fromBottom}
+        className="glass-card rounded-xl p-4 col-span-1 lg:col-span-2"
+      >
         <Waterfall allSDs={allSubdomains} />
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

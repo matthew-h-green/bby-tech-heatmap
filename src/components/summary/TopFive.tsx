@@ -11,15 +11,8 @@ interface TopFiveProps {
   onSelect: (sd: Subdomain) => void;
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const item = {
-  hidden: { opacity: 0, x: -12 },
-  show: { opacity: 1, x: 0 },
-};
+const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };
+const item = { hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0 } };
 
 export function TopFive({ allSDs, onSelect }: TopFiveProps) {
   const scored = allSDs
@@ -29,8 +22,8 @@ export function TopFive({ allSDs, onSelect }: TopFiveProps) {
 
   return (
     <div>
-      <h3 className="font-extrabold text-[13px] text-bby-dark mb-1">Top 5 Priority Domains</h3>
-      <p className="text-[10px] text-bby-muted mb-2.5">
+      <h3 className="font-display font-extrabold text-[13px] text-bby-dark mb-1">Top 5 Priority Domains</h3>
+      <p className="text-[10px] text-bby-muted mb-2.5 font-body">
         Ranked by debt × strategic importance × interest rate
       </p>
       <motion.div variants={container} initial="hidden" animate="show">
@@ -41,17 +34,18 @@ export function TopFive({ allSDs, onSelect }: TopFiveProps) {
               key={sd.id}
               variants={item}
               onClick={() => onSelect(sd)}
-              className="flex items-start gap-2.5 p-2.5 mb-1.5 bg-white rounded-md border border-bby-mid cursor-pointer hover:shadow-md transition-shadow"
+              className="flex items-start gap-2.5 p-3 mb-2 rounded-xl cursor-pointer glass-card glass-card-hover"
               style={{ borderLeft: `4px solid ${l.color}` }}
             >
-              <div className="font-black text-lg text-bby-mid w-5 shrink-0 leading-none">
+              <div
+                className="font-display font-black text-xl w-6 shrink-0 leading-none"
+                style={{ color: l.color, opacity: 0.4 }}
+              >
                 {i + 1}
               </div>
               <div className="flex-1">
-                <div className="font-bold text-[11px] text-bby-dark">{sd.name}</div>
-                <div className="text-[9px] text-bby-muted mt-0.5 mb-1.5">
-                  {sd.opportunities[0]}
-                </div>
+                <div className="font-display font-bold text-[11px] text-bby-dark">{sd.name}</div>
+                <div className="text-[9px] text-bby-muted mt-0.5 mb-1.5 font-body">{sd.opportunities[0]}</div>
                 <div className="flex gap-2">
                   {DIMS.map((dim) => {
                     const s = sd[dim.key];
@@ -67,16 +61,12 @@ export function TopFive({ allSDs, onSelect }: TopFiveProps) {
               </div>
               <div className="text-right shrink-0">
                 <span
-                  className="rounded px-1.5 py-px text-[9px] font-bold"
-                  style={{
-                    background: l.bg,
-                    color: l.color,
-                    border: `1px solid ${l.color}40`,
-                  }}
+                  className="rounded-md px-1.5 py-0.5 text-[9px] font-bold font-display"
+                  style={{ background: l.bg, color: l.color, border: `1px solid ${l.color}30` }}
                 >
                   {l.label}
                 </span>
-                <div className="text-[10px] font-extrabold text-[#A63D2F] mt-0.5">
+                <div className="text-[10px] font-display font-extrabold text-[#A63D2F] mt-1">
                   ${debtCost(sd).toFixed(1)}M
                 </div>
               </div>

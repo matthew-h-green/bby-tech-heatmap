@@ -18,34 +18,28 @@ export function DomainBars({ domains, infraSds }: DomainBarsProps) {
 
   return (
     <div>
-      <h3 className="font-extrabold text-[13px] text-bby-dark mb-1">Debt Cost by Domain</h3>
-      <p className="text-[10px] text-bby-muted mb-3">
-        Estimated annual debt interest cost per L1 domain
-      </p>
+      <h3 className="font-display font-extrabold text-[13px] text-bby-dark mb-1">Debt Cost by Domain</h3>
+      <p className="text-[10px] text-bby-muted mb-3 font-body">Estimated annual debt interest cost per L1 domain</p>
       {groups.map((g, i) => {
         const cost = g.sds.reduce((s, d) => s + debtCost(d), 0);
         const spend = g.sds.reduce((s, d) => s + d.itSpend, 0);
         const peak = Math.max(...g.sds.map((d) => d.debt));
         const pl = getLevel(peak);
-
         return (
-          <div key={g.label} className="mb-2.5">
-            <div className="flex justify-between mb-0.5">
-              <span className="text-[11px] font-bold text-bby-dark">
-                {g.icon} {g.label}
-              </span>
-              <span className="text-[11px] font-extrabold" style={{ color: pl.color }}>
-                ${cost.toFixed(1)}M{" "}
-                <span className="text-bby-muted font-normal">/ ${spend}M spend</span>
+          <div key={g.label} className="mb-3">
+            <div className="flex justify-between mb-1">
+              <span className="text-[11px] font-display font-bold text-bby-dark">{g.icon} {g.label}</span>
+              <span className="text-[11px] font-display font-extrabold" style={{ color: pl.color }}>
+                ${cost.toFixed(1)}M <span className="text-bby-muted font-body font-normal">/ ${spend}M spend</span>
               </span>
             </div>
-            <div className="bg-bby-mid rounded-[3px] h-2.5 overflow-hidden">
+            <div className="bg-bby-mid rounded-full h-3 overflow-hidden">
               <motion.div
-                className="h-full rounded-[3px]"
-                style={{ background: pl.color }}
+                className="h-full rounded-full"
+                style={{ background: `linear-gradient(90deg, ${pl.color} 0%, ${pl.color}B0 100%)` }}
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.round((cost / maxCost) * 100)}%` }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
               />
             </div>
           </div>
