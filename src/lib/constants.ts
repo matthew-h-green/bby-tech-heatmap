@@ -14,11 +14,11 @@ export const BB = {
 } as const;
 
 export const DEBT_LEVELS: DebtLevel[] = [
-  { label: "Minimal", score: 1, color: "#6B7280", bg: "#F3F4F6" },
-  { label: "Low", score: 2, color: "#2563A8", bg: "#EBF2FB" },
-  { label: "Moderate", score: 3, color: "#1D6FA0", bg: "#E5F2F8" },
-  { label: "High", score: 4, color: "#B45309", bg: "#FBF3E8" },
-  { label: "Very High", score: 5, color: "#9B2020", bg: "#F9EDED" },
+  { label: "Minimal", score: 1, color: "#64748B", bg: "#F1F5F9" },
+  { label: "Low", score: 2, color: "#0D9488", bg: "#F0FDFA" },
+  { label: "Moderate", score: 3, color: "#D97706", bg: "#FFFBEB" },
+  { label: "High", score: 4, color: "#EA580C", bg: "#FFF7ED" },
+  { label: "Very High", score: 5, color: "#DC2626", bg: "#FEF2F2" },
 ];
 
 export const DIMS: Dimension[] = [
@@ -31,10 +31,10 @@ export const DIMS: Dimension[] = [
 export const STRATEGIC: StrategicLevel[] = ["Low", "Medium", "High", "Critical"];
 
 export const STRAT_COLOR: Record<StrategicLevel, string> = {
-  Low: "#9CA3AF",
-  Medium: "#4B5563",
+  Low: "#94A3B8",
+  Medium: "#475569",
   High: "#0045BE",
-  Critical: "#1C252C",
+  Critical: "#7C3AED",
 };
 
 export const STRAT_RANK: Record<StrategicLevel, number> = {

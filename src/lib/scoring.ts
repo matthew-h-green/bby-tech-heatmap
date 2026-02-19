@@ -6,28 +6,28 @@ export function getLevel(score: number): DebtLevel {
 }
 
 export function dimColor(score: number): string {
-  if (score <= 2) return "#6B7280";
-  if (score === 3) return "#2563A8";
-  if (score <= 4) return "#B45309";
-  return "#9B2020";
+  if (score <= 2) return "#0D9488";
+  if (score === 3) return "#D97706";
+  if (score <= 4) return "#EA580C";
+  return "#DC2626";
 }
 
 export function dimColorDark(score: number): string {
-  if (score <= 2) return "#86efac";
-  if (score === 3) return "#c4b5fd";
-  if (score <= 4) return "#fcd34d";
-  return "#fca5a5";
+  if (score <= 2) return "#5EEAD4";
+  if (score === 3) return "#FCD34D";
+  if (score <= 4) return "#FDBA74";
+  return "#FCA5A5";
 }
 
 export function debtOpacity(debt: number): string {
-  const opacities = [0.07, 0.12, 0.18, 0.25, 0.33];
-  const opacity = opacities[debt - 1] ?? 0.07;
+  const opacities = [0.08, 0.14, 0.20, 0.28, 0.38];
+  const opacity = opacities[debt - 1] ?? 0.08;
   return Math.round(opacity * 255).toString(16).padStart(2, "0");
 }
 
 export function headerOpacity(peak: number): string {
-  const opacities = [0.04, 0.07, 0.11, 0.15, 0.2];
-  const opacity = opacities[peak - 1] ?? 0.04;
+  const opacities = [0.05, 0.09, 0.14, 0.19, 0.25];
+  const opacity = opacities[peak - 1] ?? 0.05;
   return Math.round(opacity * 255).toString(16).padStart(2, "0");
 }
 

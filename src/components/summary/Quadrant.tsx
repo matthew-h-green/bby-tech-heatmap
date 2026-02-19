@@ -11,10 +11,10 @@ interface QuadrantProps {
 }
 
 const QUADRANTS = [
-  { id: "prioritise" as const, label: "Prioritise Now", sub: "High debt · High strategic value", bg: "linear-gradient(135deg, #FBF3E8 0%, #F5E8D4 100%)", border: "#B45309", labelColor: "#7A3606", col: 2, row: 1 },
-  { id: "monitor" as const, label: "Monitor", sub: "High debt · Lower strategic impact", bg: "linear-gradient(135deg, #F9EDED 0%, #F3DADA 100%)", border: "#9B2020", labelColor: "#6B1515", col: 1, row: 1 },
+  { id: "prioritise" as const, label: "Prioritise Now", sub: "High debt · High strategic value", bg: "linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)", border: "#EA580C", labelColor: "#C2410C", col: 2, row: 1 },
+  { id: "monitor" as const, label: "Monitor", sub: "High debt · Lower strategic impact", bg: "linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%)", border: "#DC2626", labelColor: "#B91C1C", col: 1, row: 1 },
   { id: "sustain" as const, label: "Sustain & Invest", sub: "Low debt · High strategic value", bg: `linear-gradient(135deg, ${BB.blueLight} 0%, #D4E2FC 100%)`, border: BB.blue, labelColor: BB.blue, col: 2, row: 2 },
-  { id: "maintain" as const, label: "Maintain", sub: "Low debt · Lower strategic impact", bg: `linear-gradient(135deg, ${BB.bg} 0%, #E5E6EA 100%)`, border: BB.mid, labelColor: BB.muted, col: 1, row: 2 },
+  { id: "maintain" as const, label: "Maintain", sub: "Low debt · Lower strategic impact", bg: "linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%)", border: "#94A3B8", labelColor: "#64748B", col: 1, row: 2 },
 ];
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } };
