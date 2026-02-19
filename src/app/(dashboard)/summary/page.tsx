@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useHeatmap } from "@/context/HeatmapContext";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Quadrant } from "@/components/summary/Quadrant";
 import { DomainBars } from "@/components/summary/DomainBars";
 import { TopFive } from "@/components/summary/TopFive";
@@ -16,24 +17,9 @@ const cascade = {
   },
 };
 
-const fromTop = {
-  hidden: { opacity: 0, y: -16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
-};
-
-const fromLeft = {
-  hidden: { opacity: 0, x: -18 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
-};
-
-const fromRight = {
-  hidden: { opacity: 0, x: 18 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
-};
-
-const fromBottom = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" as const } },
+const fadeIn = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
 };
 
 export default function SummaryPage() {
@@ -52,25 +38,35 @@ export default function SummaryPage() {
       variants={cascade}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-1 lg:grid-cols-2 gap-3"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-4"
     >
-      <motion.div
-        variants={fromTop}
-        className="glass-card rounded-xl p-4 col-span-1 lg:col-span-2"
-      >
-        <Quadrant allSDs={allSubdomains} onDotClick={handleSelect} />
+      <motion.div variants={fadeIn} className="col-span-1 lg:col-span-2">
+        <Card>
+          <CardContent className="p-5">
+            <Quadrant allSDs={allSubdomains} onDotClick={handleSelect} />
+          </CardContent>
+        </Card>
       </motion.div>
-      <motion.div variants={fromLeft} className="glass-card rounded-xl p-4">
-        <DomainBars domains={domains} infraSds={infraSds} />
+      <motion.div variants={fadeIn}>
+        <Card>
+          <CardContent className="p-5">
+            <DomainBars domains={domains} infraSds={infraSds} />
+          </CardContent>
+        </Card>
       </motion.div>
-      <motion.div variants={fromRight} className="glass-card rounded-xl p-4">
-        <TopFive allSDs={allSubdomains} onSelect={handleSelect} />
+      <motion.div variants={fadeIn}>
+        <Card>
+          <CardContent className="p-5">
+            <TopFive allSDs={allSubdomains} onSelect={handleSelect} />
+          </CardContent>
+        </Card>
       </motion.div>
-      <motion.div
-        variants={fromBottom}
-        className="glass-card rounded-xl p-4 col-span-1 lg:col-span-2"
-      >
-        <Waterfall allSDs={allSubdomains} />
+      <motion.div variants={fadeIn} className="col-span-1 lg:col-span-2">
+        <Card>
+          <CardContent className="p-5">
+            <Waterfall allSDs={allSubdomains} />
+          </CardContent>
+        </Card>
       </motion.div>
     </motion.div>
   );

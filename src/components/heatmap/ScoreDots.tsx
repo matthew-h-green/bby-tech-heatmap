@@ -1,34 +1,26 @@
 "use client";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-
 interface ScoreDotsProps {
   score: number;
   color: string;
   label?: string;
 }
 
-export function ScoreDots({ score, color, label }: ScoreDotsProps) {
-  const dots = (
-    <div className="flex gap-[2px] items-center">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <div
-          key={i}
-          className="w-[5px] h-[5px] rounded-full transition-colors duration-200"
-          style={{ background: i <= score ? color : "#E5E7EB" }}
-        />
-      ))}
-    </div>
-  );
-
-  if (!label) return dots;
-
+export function ScoreDots({ score, color }: ScoreDotsProps) {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>{dots}</TooltipTrigger>
-      <TooltipContent side="top" className="text-xs">
-        {label}: {score} / 5
-      </TooltipContent>
-    </Tooltip>
+    <div className="flex items-center gap-1.5">
+      <div className="flex gap-0.5">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div
+            key={i}
+            className="w-2.5 h-2 rounded-sm transition-colors duration-200"
+            style={{ background: i <= score ? color : "#E5E7EB" }}
+          />
+        ))}
+      </div>
+      <span className="text-xs tabular-nums font-medium" style={{ color }}>
+        {score}
+      </span>
+    </div>
   );
 }

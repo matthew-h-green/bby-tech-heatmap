@@ -14,7 +14,7 @@ interface DimRowProps {
 export function DimRow({ sd, dark }: DimRowProps) {
   return (
     <div
-      className="grid grid-cols-2 gap-x-2 gap-y-[3px] mt-1.5 pt-1.5"
+      className="grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2.5 pt-2"
       style={{ borderTop: dark ? "1px solid rgba(255,255,255,0.15)" : "1px solid #E8EAED" }}
     >
       {DIMS.map((d) => {
@@ -23,8 +23,8 @@ export function DimRow({ sd, dark }: DimRowProps) {
         return (
           <Tooltip key={d.key}>
             <TooltipTrigger asChild>
-              <div className="flex items-center gap-1 cursor-default">
-                <span className="text-[9px]">{d.icon}</span>
+              <div className="flex items-center gap-1.5 cursor-default">
+                <span className="text-sm">{d.icon}</span>
                 <ScoreDots score={s} color={c} />
               </div>
             </TooltipTrigger>

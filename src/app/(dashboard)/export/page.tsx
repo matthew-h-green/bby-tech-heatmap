@@ -4,6 +4,7 @@ import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Download, Printer, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useHeatmap } from "@/context/HeatmapContext";
 import { Quadrant } from "@/components/summary/Quadrant";
 import { DomainBars } from "@/components/summary/DomainBars";
@@ -109,76 +110,86 @@ export default function ExportPage() {
       transition={{ duration: 0.3 }}
     >
       {/* Actions bar */}
-      <div className="bg-white rounded-lg p-4 border border-bby-mid mb-3 flex flex-wrap gap-3 items-center no-print">
-        <h2 className="font-extrabold text-sm text-bby-dark mr-auto">Export & Print</h2>
-        <Button onClick={handlePrint} variant="outline" size="sm" className="gap-2">
-          <Printer size={14} /> Print
-        </Button>
-        <Button onClick={handlePDF} variant="outline" size="sm" className="gap-2">
-          <Download size={14} /> Download PDF
-        </Button>
-        <Button onClick={handleCSV} variant="outline" size="sm" className="gap-2">
-          <FileSpreadsheet size={14} /> Export CSV
-        </Button>
-      </div>
+      <Card className="mb-4 no-print">
+        <CardContent className="p-5 flex flex-wrap gap-3 items-center">
+          <h2 className="font-display font-semibold text-base text-bby-dark mr-auto">Export & Print</h2>
+          <Button onClick={handlePrint} variant="outline" size="sm" className="gap-2">
+            <Printer size={14} /> Print
+          </Button>
+          <Button onClick={handlePDF} variant="outline" size="sm" className="gap-2">
+            <Download size={14} /> Download PDF
+          </Button>
+          <Button onClick={handleCSV} variant="outline" size="sm" className="gap-2">
+            <FileSpreadsheet size={14} /> Export CSV
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* Printable content */}
-      <div ref={printRef} className="space-y-3">
-        {/* Title for print */}
-        <div className="bg-white rounded-lg p-4 border border-bby-mid">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center shrink-0">
-              <div className="bg-bby-yellow rounded-l-[4px] px-2 py-1.5 font-black text-sm text-bby-dark tracking-tight leading-none">
-                BEST
-              </div>
-              <div className="bg-bby-yellow rounded-r-[4px] px-2 py-1.5 font-black text-sm text-bby-dark tracking-tight leading-none border-l border-black/10">
-                BUY
-              </div>
-            </div>
-            <div>
-              <h1 className="font-extrabold text-lg text-bby-dark">
-                Technology Debt Assessment
-              </h1>
-              <p className="text-[10px] text-bby-muted">
-                Portfolio overview — All values illustrative
-              </p>
-            </div>
-          </div>
-
-          {/* Summary KPIs inline */}
-          <div className="grid grid-cols-4 gap-3">
-            {[
-              { label: "Addressable IT Spend", value: `$${allSubdomains.reduce((s, d) => s + d.itSpend, 0)}M` },
-              { label: "Est. Annual Debt Cost", value: `$${allSubdomains.reduce((s, d) => s + debtCost(d), 0).toFixed(1)}M` },
-              { label: "Avg Debt Score", value: `${(allSubdomains.reduce((s, d) => s + d.debt, 0) / allSubdomains.length).toFixed(1)} / 5` },
-              { label: "High/Very High", value: `${allSubdomains.filter((d) => d.debt >= 4).length} of ${allSubdomains.length}` },
-            ].map((kpi) => (
-              <div key={kpi.label} className="bg-bby-bg rounded-md p-2.5 text-center border border-bby-mid">
-                <div className="text-[8px] text-bby-muted font-bold uppercase tracking-wider">
-                  {kpi.label}
+      <div ref={printRef} className="space-y-4">
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex items-center shrink-0">
+                <div className="bg-bby-yellow rounded-l px-2.5 py-1.5 font-display font-bold text-sm text-bby-dark tracking-tight leading-none">
+                  BEST
                 </div>
-                <div className="text-base font-black text-bby-dark mt-0.5">{kpi.value}</div>
+                <div className="bg-bby-yellow rounded-r px-2.5 py-1.5 font-display font-bold text-sm text-bby-dark tracking-tight leading-none border-l border-black/10">
+                  BUY
+                </div>
               </div>
-            ))}
-          </div>
+              <div>
+                <h1 className="font-display font-semibold text-lg text-bby-dark">
+                  Technology Debt Assessment
+                </h1>
+                <p className="text-sm text-muted-foreground font-body">
+                  Portfolio overview — All values illustrative
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-4 gap-3">
+              {[
+                { label: "Addressable IT Spend", value: `$${allSubdomains.reduce((s, d) => s + d.itSpend, 0)}M` },
+                { label: "Est. Annual Debt Cost", value: `$${allSubdomains.reduce((s, d) => s + debtCost(d), 0).toFixed(1)}M` },
+                { label: "Avg Debt Score", value: `${(allSubdomains.reduce((s, d) => s + d.debt, 0) / allSubdomains.length).toFixed(1)} / 5` },
+                { label: "High/Very High", value: `${allSubdomains.filter((d) => d.debt >= 4).length} of ${allSubdomains.length}` },
+              ].map((kpi) => (
+                <div key={kpi.label} className="bg-muted rounded-lg p-3 text-center">
+                  <div className="text-xs text-muted-foreground font-medium uppercase tracking-wide font-body">
+                    {kpi.label}
+                  </div>
+                  <div className="text-lg font-display font-bold text-bby-dark mt-0.5">{kpi.value}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-5">
+            <Quadrant allSDs={allSubdomains} onDotClick={() => {}} />
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-4 print-break">
+          <Card>
+            <CardContent className="p-5">
+              <DomainBars domains={domains} infraSds={infraSds} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-5">
+              <TopFive allSDs={allSubdomains} onSelect={() => {}} />
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="bg-white rounded-lg p-4 border border-bby-mid">
-          <Quadrant allSDs={allSubdomains} onDotClick={() => {}} />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 print-break">
-          <div className="bg-white rounded-lg p-4 border border-bby-mid">
-            <DomainBars domains={domains} infraSds={infraSds} />
-          </div>
-          <div className="bg-white rounded-lg p-4 border border-bby-mid">
-            <TopFive allSDs={allSubdomains} onSelect={() => {}} />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg p-4 border border-bby-mid">
-          <Waterfall allSDs={allSubdomains} />
-        </div>
+        <Card>
+          <CardContent className="p-5">
+            <Waterfall allSDs={allSubdomains} />
+          </CardContent>
+        </Card>
       </div>
     </motion.div>
   );

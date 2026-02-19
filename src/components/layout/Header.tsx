@@ -14,61 +14,28 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="relative rounded-xl mb-4 overflow-hidden">
-      {/* Gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(135deg, #1C252C 0%, #0D1117 60%, #0A0F14 100%)",
-        }}
-      />
-      {/* Subtle grid dot pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-        }}
-      />
-      {/* Bottom accent line — luminous yellow */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[2px]"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, #FFED31 20%, #FFED31 80%, transparent 100%)",
-          opacity: 0.6,
-        }}
-      />
-      {/* Content */}
-      <div className="relative px-6 py-4 flex justify-between items-center">
+    <header className="bg-[#1C252C] rounded-xl mb-5 border-b-2 border-[#FFED31]/40">
+      <div className="px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          {/* Logo with glow */}
-          <div className="flex items-center shrink-0 relative">
-            <div
-              className="absolute -inset-2 rounded-lg opacity-20 blur-md"
-              style={{ background: "#FFED31" }}
-            />
-            <div className="relative flex items-center">
-              <div className="bg-bby-yellow rounded-l px-2.5 py-1.5 font-display font-extrabold text-sm text-bby-dark tracking-tight leading-none">
-                BEST
-              </div>
-              <div className="bg-bby-yellow rounded-r px-2.5 py-1.5 font-display font-extrabold text-sm text-bby-dark tracking-tight leading-none border-l border-black/10">
-                BUY
-              </div>
+          <div className="flex items-center shrink-0">
+            <div className="bg-bby-yellow rounded-l px-2.5 py-1.5 font-display font-bold text-sm text-bby-dark tracking-tight leading-none">
+              BEST
+            </div>
+            <div className="bg-bby-yellow rounded-r px-2.5 py-1.5 font-display font-bold text-sm text-bby-dark tracking-tight leading-none border-l border-black/10">
+              BUY
             </div>
           </div>
           <div className="w-px h-8 bg-white/10" />
           <div>
-            <h1 className="font-display text-white font-extrabold text-base tracking-wide">
+            <h1 className="font-display text-white font-semibold text-base tracking-wide">
               Tech Debt Heatmap
             </h1>
-            <p className="text-white/35 text-[10px] mt-0.5 font-body tracking-wide">
-              Click any domain to inspect or edit · All values illustrative
+            <p className="text-white/40 text-xs mt-0.5 font-body">
+              Click any domain to inspect or edit
             </p>
           </div>
         </div>
-        <nav className="flex gap-1.5">
+        <nav className="flex gap-2">
           {NAV_ITEMS.map(({ href, label }) => {
             const isActive = pathname === href;
             return (
@@ -76,18 +43,12 @@ export function Header() {
                 key={href}
                 href={href}
                 className={cn(
-                  "relative rounded-md px-4 py-1.5 font-display font-bold text-[11px] transition-all duration-200",
+                  "rounded-md px-5 py-2 font-display font-medium text-sm transition-colors duration-150",
                   isActive
                     ? "bg-bby-yellow text-bby-dark"
-                    : "bg-white/5 text-white/50 border border-white/10 hover:text-white/80 hover:bg-white/10 hover:border-white/20"
+                    : "text-white/50 hover:text-white/80 hover:bg-white/10"
                 )}
               >
-                {isActive && (
-                  <div
-                    className="absolute -inset-1 rounded-lg opacity-20 blur-sm -z-10"
-                    style={{ background: "#FFED31" }}
-                  />
-                )}
                 {label}
               </Link>
             );

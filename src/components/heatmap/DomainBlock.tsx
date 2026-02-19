@@ -2,6 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { getLevel, headerOpacity, debtCost } from "@/lib/scoring";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { HeatCell } from "./HeatCell";
 import type { Domain, Subdomain } from "@/types/heatmap";
 
@@ -28,62 +30,47 @@ export function DomainBlock({ domain, activeId, onSelect, open, onToggle }: Doma
   const pl = getLevel(peak);
   const spend = domain.subdomains.reduce((s, d) => s + d.itSpend, 0);
   const cost = domain.subdomains.reduce((s, d) => s + debtCost(d), 0);
-  const hdrHex = headerOpacity(peak);
 
   return (
-    <div
-      className="rounded-xl overflow-hidden glass-card"
-      style={{ border: `1px solid ${pl.color}25` }}
-    >
-      {/* Header */}
-      <div
+    <Card className="overflow-hidden py-0">
+      <CardHeader
         onClick={onToggle}
-        className="relative px-4 py-3 cursor-pointer flex justify-between items-center"
-        style={{
-          background: `${pl.color}${hdrHex}`,
-          borderBottom: `1px solid ${pl.color}15`,
-        }}
+        className="cursor-pointer flex justify-between items-center px-5 py-3.5 border-l-4"
+        style={{ borderLeftColor: pl.color, background: `${pl.color}${headerOpacity(peak)}` }}
       >
-        {/* Left accent */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-[3px]"
-          style={{
-            background: `linear-gradient(180deg, ${pl.color} 0%, ${pl.color}50 100%)`,
-          }}
-        />
-        <div className="flex items-center gap-2.5">
-          <span className="text-sm">{domain.icon}</span>
+        <div className="flex items-center gap-3">
+          <span className="text-base">{domain.icon}</span>
           <div>
-            <div className="text-bby-dark font-display font-extrabold text-xs tracking-wide">
+            <div className="text-bby-dark font-display font-semibold text-base">
               {domain.label}
             </div>
-            <div className="text-bby-muted text-[9px] mt-0.5 font-body">
+            <div className="text-muted-foreground text-sm mt-0.5 font-body">
               {domain.subdomains.length} sub-domains · ${spend}M · ${cost.toFixed(1)}M debt cost
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2.5">
-          <span
-            className="rounded-md px-2 py-0.5 text-[9px] font-bold font-display"
+        <div className="flex items-center gap-3">
+          <Badge
+            variant="outline"
+            className="text-xs font-medium"
             style={{
-              background: pl.bg,
+              backgroundColor: pl.bg,
               color: pl.color,
-              border: `1px solid ${pl.color}30`,
+              borderColor: `${pl.color}40`,
             }}
           >
             Peak: {pl.label}
-          </span>
+          </Badge>
           <motion.span
             animate={{ rotate: open ? 90 : 0 }}
             transition={{ duration: 0.2 }}
-            className="text-bby-muted text-[11px] inline-block"
+            className="text-muted-foreground text-sm inline-block"
           >
             ▶
           </motion.span>
         </div>
-      </div>
+      </CardHeader>
 
-      {/* Collapsed: tag list with fade mask */}
       <AnimatePresence mode="wait">
         {!open && (
           <motion.div
@@ -94,29 +81,29 @@ export function DomainBlock({ domain, activeId, onSelect, open, onToggle }: Doma
             transition={{ duration: 0.25 }}
             className="overflow-hidden"
           >
-            <div className="px-3.5 py-2 flex gap-1.5 flex-wrap scroll-fade-mask bg-white/50">
+            <div className="px-5 py-3 flex gap-2 flex-wrap">
               {domain.subdomains.map((sd) => {
                 const l = getLevel(sd.debt);
                 return (
-                  <span
+                  <Badge
                     key={sd.id}
+                    variant="outline"
                     onClick={() => onSelect(sd)}
-                    className="rounded-md px-[7px] py-0.5 text-[9px] font-bold font-display cursor-pointer hover:opacity-80 transition-opacity"
+                    className="text-xs font-medium cursor-pointer hover:opacity-80 transition-opacity"
                     style={{
-                      background: l.bg,
+                      backgroundColor: l.bg,
                       color: l.color,
-                      border: `1px solid ${l.color}25`,
+                      borderColor: `${l.color}30`,
                     }}
                   >
                     {sd.name}
-                  </span>
+                  </Badge>
                 );
               })}
             </div>
           </motion.div>
         )}
 
-        {/* Expanded: heat cells with stagger */}
         {open && (
           <motion.div
             key="expanded"
@@ -126,21 +113,23 @@ export function DomainBlock({ domain, activeId, onSelect, open, onToggle }: Doma
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <motion.div
-              className="p-2.5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 bg-white/40"
-              variants={cellStagger}
-              initial="hidden"
-              animate="show"
-            >
-              {domain.subdomains.map((sd) => (
-                <motion.div key={sd.id} variants={cellItem}>
-                  <HeatCell sd={sd} onClick={onSelect} active={activeId === sd.id} />
-                </motion.div>
-              ))}
-            </motion.div>
+            <CardContent className="p-0">
+              <motion.div
+                className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3"
+                variants={cellStagger}
+                initial="hidden"
+                animate="show"
+              >
+                {domain.subdomains.map((sd) => (
+                  <motion.div key={sd.id} variants={cellItem}>
+                    <HeatCell sd={sd} onClick={onSelect} active={activeId === sd.id} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </CardContent>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </Card>
   );
 }

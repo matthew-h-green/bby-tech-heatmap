@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { getLevel, dimColor, priorityScore, debtCost } from "@/lib/scoring";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { DIMS } from "@/lib/constants";
 import { ScoreDots } from "@/components/heatmap/ScoreDots";
 import type { Subdomain } from "@/types/heatmap";
@@ -22,54 +24,55 @@ export function TopFive({ allSDs, onSelect }: TopFiveProps) {
 
   return (
     <div>
-      <h3 className="font-display font-extrabold text-[13px] text-bby-dark mb-1">Top 5 Priority Domains</h3>
-      <p className="text-[10px] text-bby-muted mb-2.5 font-body">
-        Ranked by debt × strategic importance × interest rate
+      <h3 className="font-display font-semibold text-lg text-bby-dark mb-1">Top 5 Priority Domains</h3>
+      <p className="text-sm text-muted-foreground mb-3 font-body">
+        Ranked by debt x strategic importance x interest rate
       </p>
       <motion.div variants={container} initial="hidden" animate="show">
         {scored.map((sd, i) => {
           const l = getLevel(sd.debt);
           return (
-            <motion.div
-              key={sd.id}
-              variants={item}
-              onClick={() => onSelect(sd)}
-              className="flex items-start gap-2.5 p-3 mb-2 rounded-xl cursor-pointer glass-card glass-card-hover"
-              style={{ borderLeft: `4px solid ${l.color}` }}
-            >
-              <div
-                className="font-display font-black text-xl w-6 shrink-0 leading-none"
-                style={{ color: l.color, opacity: 0.4 }}
+            <motion.div key={sd.id} variants={item}>
+              <Card
+                onClick={() => onSelect(sd)}
+                className="flex items-start gap-3 p-3.5 mb-2.5 cursor-pointer border-l-4 hover:shadow-md transition-shadow py-3.5"
+                style={{ borderLeftColor: l.color }}
               >
-                {i + 1}
-              </div>
-              <div className="flex-1">
-                <div className="font-display font-bold text-[11px] text-bby-dark">{sd.name}</div>
-                <div className="text-[9px] text-bby-muted mt-0.5 mb-1.5 font-body">{sd.opportunities[0]}</div>
-                <div className="flex gap-2">
-                  {DIMS.map((dim) => {
-                    const s = sd[dim.key];
-                    const c = dimColor(s);
-                    return (
-                      <div key={dim.key} className="flex items-center gap-[3px]">
-                        <span className="text-[9px]">{dim.icon}</span>
-                        <ScoreDots score={s} color={c} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="text-right shrink-0">
-                <span
-                  className="rounded-md px-1.5 py-0.5 text-[9px] font-bold font-display"
-                  style={{ background: l.bg, color: l.color, border: `1px solid ${l.color}30` }}
+                <div
+                  className="font-display font-bold text-xl w-7 shrink-0 leading-none text-center"
+                  style={{ color: l.color, opacity: 0.4 }}
                 >
-                  {l.label}
-                </span>
-                <div className="text-[10px] font-display font-extrabold text-[#A63D2F] mt-1">
-                  ${debtCost(sd).toFixed(1)}M
+                  {i + 1}
                 </div>
-              </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-display font-medium text-sm text-bby-dark">{sd.name}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5 mb-2 font-body truncate">{sd.opportunities[0]}</div>
+                  <div className="flex gap-2.5 flex-wrap">
+                    {DIMS.map((dim) => {
+                      const s = sd[dim.key];
+                      const c = dimColor(s);
+                      return (
+                        <div key={dim.key} className="flex items-center gap-1">
+                          <span className="text-sm">{dim.icon}</span>
+                          <ScoreDots score={s} color={c} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <Badge
+                    variant="outline"
+                    className="text-xs font-medium"
+                    style={{ backgroundColor: l.bg, color: l.color, borderColor: `${l.color}40` }}
+                  >
+                    {l.label}
+                  </Badge>
+                  <div className="text-sm font-display font-semibold text-[#DC2626] mt-1.5">
+                    ${debtCost(sd).toFixed(1)}M
+                  </div>
+                </div>
+              </Card>
             </motion.div>
           );
         })}

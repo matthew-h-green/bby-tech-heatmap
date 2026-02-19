@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <HeatmapProvider>
-      <div className="min-h-screen p-4 max-w-[1600px] mx-auto">
+      <div className="min-h-screen px-6 py-6 lg:px-8 lg:py-8 max-w-[1600px] mx-auto">
         <Header />
         <KPIBar />
         {children}
